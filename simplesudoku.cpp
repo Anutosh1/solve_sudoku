@@ -1,12 +1,12 @@
 //Code to find total valid Solution for a Incomplete Sudoku and print a Valid Sudoku
-//Code is Valid 6*6 Sudoku 
+//Code is Valid 6*6 
 //Example of valid Sudoku for 6*6
-// 4 5 6 3 2 1
-// 1 2 3
-// 6   1
-// 2     6
-// 5       3
-// 6         5
+// 1 2 3 4 5 6
+// 2 3 
+// 3   4
+// 6     5
+// 4       6
+// 5         2
 
 #include<bits/stdc++.h>
 #include<unistd.h>
@@ -14,13 +14,13 @@
 using namespace std;
 
 class Sudoku{
-    int n,total,mat[100][100],vis[100][100],con[100][100];
+    int n,total,mat[100][100],vis[100][100];
     
     //Beginning Array used to find the valid Sudoku
     int arr[6][6]={
-                {4,5,6,3,2,1},
-                {0,0,0,0,0,0},
-                {6,4,0,0,0,0},
+                {6,5,4,3,2,1},
+                {5,0,0,0,0,0},
+                {4,0,0,0,0,0},
                 {0,0,0,0,0,0},
                 {0,0,0,0,0,0},
                 {0,0,0,0,0,0}
@@ -39,7 +39,6 @@ class Sudoku{
                 for(int j=0;j<25;j++){
                     mat[i][j]=0;
                     vis[i][j]=0;
-                    con[i][j]=0;
                 }
             }
         }
@@ -78,7 +77,7 @@ bool Sudoku::printSudoku(int row,int pos){
     }
 
     for(int i=0;i<n;i++){
-        if(vis[pos][i]==1 || con[(row/2)*2 + i/3][pos]==1 || mat[row][i]!=0 || !(arr[row][i]==0 || arr[row][i]==pos) )continue;
+        if(vis[pos][i]==1 || mat[row][i]!=0 || !(arr[row][i]==0 || arr[row][i]==pos) )continue;
         else{
 
             if(i==row){
@@ -93,9 +92,7 @@ bool Sudoku::printSudoku(int row,int pos){
 
             vis[pos][i]=1;
             mat[row][i]=pos;
-            con[(row/2)*2 + i/3][pos]=1;
             if(printSudoku(row+1,pos))return true;
-            con[(row/2)*2 + i/3][pos]=0;
             vis[pos][i]=0;
             mat[row][i]=0;
 
@@ -106,8 +103,6 @@ bool Sudoku::printSudoku(int row,int pos){
             if(i+row==(n-1)){
                 vis[pos][n+1]=0;
             }
-
-        
         }
     }
     return res;
@@ -127,7 +122,7 @@ bool Sudoku::isValidSudoku(int row,int pos){
     }
 
     for(int i=0;i<n;i++){
-        if( vis[pos][i]==1 || con[(row/2)*2 + i/3][pos]==1 || mat[row][i]!=0 || !(arr[row][i]==0 || arr[row][i]==pos) )continue;
+        if(vis[pos][i]==1 || mat[row][i]!=0 || !(arr[row][i]==0 || arr[row][i]==pos) )continue;
         else{
 
             if(i==row){
@@ -142,9 +137,7 @@ bool Sudoku::isValidSudoku(int row,int pos){
 
             vis[pos][i]=1;
             mat[row][i]=pos;
-            con[(row/2)*2 + i/3][pos]=1;
             if(isValidSudoku(row+1,pos))res= true;
-            con[(row/2)*2 + i/3][pos]=0;
             vis[pos][i]=0;
             mat[row][i]=0;
 
@@ -162,8 +155,8 @@ bool Sudoku::isValidSudoku(int row,int pos){
 
 int main(){
     int n=6;
+
     Sudoku Obj(n);
-    Obj.Reset();
     if(Obj.isValidSudoku(0,1))cout<<"\n"<<Obj.printTotal()<<" valid solution Exists";
 
     cout<<"\n";
