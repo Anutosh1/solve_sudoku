@@ -1,12 +1,62 @@
+//Code to find total valid Solution for a Incomplete Sudoku and print a Valid Sudoku
+//Code is Valid both 6*6 and 9*9 Sudoku by changing the arr size in class and varible n in main function 
+//Example of valid Sudoku for 6*6
+//1 2 3 4 5 6
+//2 3 
+//3   4
+//6     5
+//4       6
+//5         2
+
 #include<bits/stdc++.h>
 #include<unistd.h>
 
 using namespace std;
 
-int total=0,mat[100][100],vis[100][100];
-int arr[6][6]={{6,5,4,3,2,1},{5,0,0,0,0,0},{4,0,0,0,0,0},{0,0,0,0,0,0},{0,0,0,0,0,0},{0,0,0,0,0,0}};
+class Sudoku{
+    int n,total,mat[100][100],vis[100][100];
+    
+    //Beginning Array used to find the valid Sudoku
+    int arr[6][6]={
+                {6,5,4,3,2,1},
+                {5,0,0,0,0,0},
+                {4,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0}
+            };
 
-bool printSudoku(int n,int row,int pos){
+    public:
+
+        Sudoku(int var){
+            n=var;
+            total=0;
+        }
+
+        void Reset(){
+            total=0;
+            for(int i=0;i<25;i++){
+                for(int j=0;j<25;j++){
+                    mat[i][j]=0;
+                    vis[i][j]=0;
+                }
+            }
+        }
+
+        // Function to print first occurance of valid Sudoku
+        bool printSudoku(int, int);
+
+        // Function to count all valid Sudoku
+        bool isValidSudoku(int, int);
+
+        int printTotal(){
+            return total;
+        }
+};
+
+
+
+bool Sudoku::printSudoku(int row,int pos){
     bool res=false;
     if(pos==n+1){
 
@@ -22,7 +72,7 @@ bool printSudoku(int n,int row,int pos){
     }
 
     if(row==n){
-        if(printSudoku(n,0,pos+1))return true;
+        if(printSudoku(0,pos+1))return true;
         return false;
     }
 
@@ -42,7 +92,7 @@ bool printSudoku(int n,int row,int pos){
 
             vis[pos][i]=1;
             mat[row][i]=pos;
-            if(printSudoku(n,row+1,pos))return true;
+            if(printSudoku(row+1,pos))return true;
             vis[pos][i]=0;
             mat[row][i]=0;
 
@@ -58,7 +108,8 @@ bool printSudoku(int n,int row,int pos){
     return res;
 }
 
-bool isValidSudoku(int n,int row,int pos){
+
+bool Sudoku::isValidSudoku(int row,int pos){
     bool res=false;
     if(pos==n+1){
         total++;
@@ -66,7 +117,7 @@ bool isValidSudoku(int n,int row,int pos){
     }
 
     if(row==n){
-        if(isValidSudoku(n,0,pos+1))return true;
+        if(isValidSudoku(0,pos+1))return true;
         return false;
     }
 
@@ -86,7 +137,7 @@ bool isValidSudoku(int n,int row,int pos){
 
             vis[pos][i]=1;
             mat[row][i]=pos;
-            if(isValidSudoku(n,row+1,pos))res= true;
+            if(isValidSudoku(row+1,pos))res= true;
             vis[pos][i]=0;
             mat[row][i]=0;
 
@@ -103,21 +154,16 @@ bool isValidSudoku(int n,int row,int pos){
 }
 
 int main(){
+    int n=6;
 
-    total=0;
-    if(isValidSudoku(6,0,1))cout<<"\n"<<total<<" valid solution Exists";
+    Sudoku Obj(n);
+    if(Obj.isValidSudoku(0,1))cout<<"\n"<<Obj.printTotal()<<" valid solution Exists";
 
-    for(int i=0;i<10;i++){
-        for(int j=0;j<10;j++){
-            mat[i][j]=0;
-            vis[i][j]=0;
-        }
-    }
     cout<<"\n";
     cout<<"\n";
-
+    Obj.Reset();
     cout<<"Solution\n";
-    if(!printSudoku(6,0,1)){
+    if(!Obj.printSudoku(0,1)){
         cout<<"SUDOKU doesn't exist for this combination";
     }
     return 0;
