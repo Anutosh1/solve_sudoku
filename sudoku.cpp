@@ -1,12 +1,12 @@
 //Code to find total valid Solution for a Incomplete Sudoku and print a Valid Sudoku
 //Code is Valid 6*6 Sudoku 
 //Example of valid Sudoku for 6*6
-// 4 5 6 3 2 1
-// 1 2 3
-// 6   1
-// 2     6
-// 5       3
-// 6         5
+// 4 5 6 3 2 1 
+// 1 2 3 5 4 6 
+// 6 4 1 2 5 3
+// 2 3 5 6 1 4
+// 5 6 4 1 3 2
+// 3 1 2 4 6 5
 
 #include<bits/stdc++.h>
 #include<unistd.h>
